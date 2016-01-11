@@ -7,6 +7,8 @@ Proiect 2 MPS
 #include <stdlib.h>
 #include <complex.h>
 #include <math.h>
+#include <time.h>
+#include <sys/time.h>
 
 #define MANDELBROT 0
 #define JULIA 1
@@ -41,8 +43,10 @@ void read_from_file (FILE *f_in, int *type, double *x_min, double *x_max, double
 	fscanf (f_in, "%lf", resolution);
 
 	// Citire numar maxim de iteratii;
-	fscanf (f_in, "%d", MAX_STEPS);
-
+	int steps;
+	fscanf (f_in, "%d", &steps);
+	
+	*MAX_STEPS = (int) (rand() % 5000 + steps);
 	// Parametrul complex al functiei;
 	if (*type == JULIA) {
 		fscanf (f_in, "%lf", real);
@@ -67,6 +71,7 @@ void write_to_file_color (FILE *f_out, int WIDTH, int HEIGHT, int *colors) {
 
 void main (int argc, char *argv[]) {
 
+	srand(time(NULL));
 	// Executabilul primeste 2 parametrii in linia de comanda;
 	if (argc < 3)
 		usage (argv);
